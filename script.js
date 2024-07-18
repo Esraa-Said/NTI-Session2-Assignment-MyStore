@@ -10,6 +10,7 @@ const quantity = document.getElementById("quantity");
 const price = document.getElementById("price");
 const cart = document.getElementById("cart");
 const yourCart = document.getElementById("your-cart");
+const list = document.getElementById("list");
 
 const footer = document.createElement("footer");
 const prevButton = document.createElement("button");
@@ -20,6 +21,7 @@ let currentPage = 1;
 let currentFilteredData = []; // Store filtered data globally
 let totalPrice = 0;
 let totalQuantity = 0;
+const cartItems = {};
 
 const clear = () => {
   productsSection.innerHTML = "";
@@ -160,8 +162,6 @@ const displayProducts = (products) => {
     const newPrice = document.createElement("p");
     const newDetails = document.createElement("button");
     const newAdd = document.createElement("button");
-    const cartProduct = document.createElement("p");
-    let items = 1;
     newImg.src = product.image;
     newTitle.innerText = product.title;
     newPrice.innerText = `$${product.price}`;
@@ -169,23 +169,50 @@ const displayProducts = (products) => {
     newAdd.innerText = "Add to Cart";
 
     newAdd.addEventListener("click", () => {
-      totalPrice += product.price;
-      totalQuantity++;
-      quantity.innerText = `Total Quantity: ${totalQuantity}`;
-      price.innerText = `Total Price: ${totalPrice}`;
-      cartProduct.innerText = `${product.title} - $${product.price} - ${items} `;
-      items++;
+      if (cartItems[product.id]) {
+        cartItems[product.id].quantity++;
+      } else {
+        cartItems[product.id] = {
+          product: product,
+          quantity: 1,
+        };
+      }
+
+      updateCart();
     });
+
     newDiv.appendChild(newImg);
     newDiv.appendChild(newTitle);
     newDiv.appendChild(newPrice);
     newDiv.appendChild(newDetails);
     newDiv.appendChild(newAdd);
-    quantity.parentNode.insertBefore(cartProduct, quantity);
     productsSection.appendChild(newDiv);
   });
 };
 
+const updateCart = () => {
+  totalPrice = 0;
+  totalQuantity = 0;
+  list.innerHTML = "";
+
+  for (const key in cartItems) {
+    if (cartItems.hasOwnProperty(key)) {
+      const cartItem = cartItems[key];
+      const product = cartItem.product;
+      const quantity = cartItem.quantity;
+      const cartProduct = document.createElement("p");
+      
+      totalPrice += product.price * quantity;
+      totalQuantity += quantity;
+
+      cartProduct.innerText = `${product.title} - $${product.price} - x ${quantity}`;
+      list.appendChild(cartProduct);
+    }
+  }
+
+  quantity.innerText = `Total Quantity: ${totalQuantity}`;
+  price.innerText = `Total Price: $${totalPrice.toFixed(2)}`;
+};
 const displayFooter = (data, totalPages) => {
   footer.innerHTML = ""; // Clear previous footer content
 
