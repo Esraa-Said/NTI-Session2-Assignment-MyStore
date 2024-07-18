@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Store</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="content">
+      <!-- Header Part -->
+      <header>
+        <h1>My Store</h1>
+        <div id="process-on-data">
+          <input
+            type="search"
+            placeholder="Search for products..."
+            autocomplete="on"
+            id="search"
+          />
+          <select name="selectCat" id="selectCat">
+            <option value="All Categories">All Categories</option>
+            <option value="men's clothing">men's clothing</option>
+            <option value="jewelery">jewelery</option>
+            <option value="electronics">electronics</option>
+            <option value="women's clothing">women's clothing</option>
+          </select>
+          <input type="number" placeholder="Min Price" id="minPrice" />
+          <input type="number" placeholder="Max Price" id="maxPrice" />
+          <button id="filterButton">Apply Filters</button>
+        </div>
+        <div id="sorting">
+          <select name="sort" id="sort">
+            <option value="Sort by Price">Sort by Price</option>
+            <option value="Ascending">Ascending</option>
+            <option value="Descending">Descending</option>
+          </select>
+        </div>
+
+        <div id="your-cart">
+          <h3 id="cart">Shopping Cart</h3>
+          <p id="quantity">Total Quantity: 0</p>
+          <p id="price">Total Price: $0.00</p>
+        </div>
+      </header>
+      <section id="products"></section>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
